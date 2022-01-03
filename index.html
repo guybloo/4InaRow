@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>4 In a Row - Can I write it?</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+        <!-- Simple line icons-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" /> 
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        
+        <header class="masthead d-flex align-items-center">
+            <div class="container px-4 px-lg-5 text-center">
+                <h1 class="mb-1" dir="rtl" style="color: white;">ארבע בשורה </h1>
+                <h3 class="mb-5" dir="rtl" style="color: white;"><em>האם ניתן לכתוב את זה?</em></h3>
+                <input type="text" id="input_text" maxlength="32" size="40" dir="rtl" placeholder="הכנס טקסט"/><br><br>
+                <script>
+                    input_text.addEventListener("input", function (e) {
+                        document.getElementById("msg").textContent="";
+                        document.getElementById("msg").style="color: #E51C35;";
+
+
+                        str = this.value;
+                        const counts = {};
+                        const signs = ['+', '&', '?', '!', '-', ' '];
+                        const special_letters = ['א','ה','ו','י'];
+                        words = [];
+                        more_letters = [];
+                        count = 0;
+                        word = "";
+                        for (const s of str) {
+                        
+                            if(!(s >= 'א' && s <='ת') && !(signs.includes(s))){
+                                document.getElementById("msg").textContent="הוזן תו לא תקין";
+                                return;
+                            }
+
+                            if(s == ' '){
+                                words.push(word);
+                                word = "";
+                                continue;
+                            }
+
+                            word = word + s;
+                            count ++;
+
+                            if (counts[s]) {
+                                counts[s]++;
+
+                                if((special_letters.includes(s) && counts[s] > 4 && !more_letters.includes(s)) ||
+                                (!special_letters.includes(s) && counts[s] > 2 && !more_letters.includes(s)))
+                                    {
+                                        more_letters.push(s);
+
+                                        msg = "חסרה האות " + s;
+                                        document.getElementById("msg").textContent=msg;
+                                        return;
+
+                                    }
+                            } else {
+                                counts[s] = 1
+                            }
+                        }
+                        if(word.length){
+                            words.push(word);
+                        }
+                        line = 0;
+                        lines = 1;
+                        text = "";
+                        for(const w of words){
+                            if(w.length > 8){
+                                document.getElementById("msg").textContent="המילה " + w + " ארוכה מידי";
+                                return;
+                            }
+
+                            if(w.length + line + 1 <= 8){
+                                line += w.length + 1;
+                                text += " " + w;
+                            } else {
+                                line = w.length;
+                                lines ++;
+                                text += '</br>' + w;
+
+                                if(lines > 4) {                                    
+                                    document.getElementById("msg").textContent="לא ניתן לסדר את המילים בארבע שורות";
+                                     return;
+                                }
+                            }
+                        }
+                        document.getElementById("msg").style="color: #FDC300;";
+                        document.getElementById("msg").innerHTML=text;
+
+                    });
+                </script>
+                <h3 class="mb-5" dir="rtl" id="msg" style="color: white;"><em></em></h3>
+                
+
+                <!-- <a class="btn btn-primary btn-xl" href="#about">Find Out More</a> -->
+            </div>
+        </header>
+        <!-- About-->
+        <footer class="footer text-center">
+            <div class="container px-4 px-lg-5">
+                <ul class="list-inline mb-5">
+                    <li class="list-inline-item">
+                        <a class="social-link rounded-circle text-white mr-3" href="#!"><i class="icon-social-facebook"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="social-link rounded-circle text-white mr-3" href="#!"><i class="icon-social-instagram"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="social-link rounded-circle text-white" href="#!"><i class="icon-envelope"></i></a>
+                    </li>
+                </ul>
+                <p class="text-muted small mb-0">Copyright &copy; Guy Bloomenfeld</p>
+            </div>
+        </footer>
+    </body>
+</html>
