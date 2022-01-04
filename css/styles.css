@@ -11473,7 +11473,7 @@ footer.footer .social-link:hover {
   min-height: 30rem;
   position: relative;
   display: table;
-  width: auto;
+  width: 100%;
   height: auto;
   padding-top: 8rem;
   padding-bottom: 8rem;
